@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public class DeliveryDateCreator {
 
 	public String createDeliverDate(String donationDate) {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SS");
 		LocalDateTime dateTime = LocalDateTime.parse(donationDate, formatter);
 		dateTime = dateTime.plusHours(3);
 		return dateTime.format(formatter);

@@ -8,6 +8,11 @@ import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import com.mac.bry.entities.Patient;
 
 public class ExcelReader {
@@ -24,9 +29,9 @@ public class ExcelReader {
 
 	private FileInputStream fileInputStream;
 
-	private HSSFWorkbook workbook;
+	private Workbook workbook;
 
-	private HSSFSheet sheet;
+	private Sheet sheet;
 
 
 	public ExcelReader(String filePath) throws IOException {
@@ -34,10 +39,23 @@ public class ExcelReader {
 		this.sourceFilePath = filePath;
 		this.sourceExcelFile = new File(this.sourceFilePath);
 		this.fileInputStream = new FileInputStream(sourceExcelFile);
-		this.workbook = new HSSFWorkbook(fileInputStream);
-		this.sheet = workbook.getSheetAt(0);
-		// creating patient from rows
+		//this.workbook = new HSSFWorkbook(fileInputStream);
 		
+		// creating patient from rows
+		this.workbook = null;
+		this.sheet = null;
+		File file = new File(filePath);
+		if (!file.exists()) {
+		   if (file.toString().endsWith(".xlsx")) {
+		      workbook = new XSSFWorkbook(fileInputStream);
+		      this.sheet = workbook.getSheetAt(0);
+		   } else {
+		      workbook = new HSSFWorkbook(fileInputStream);
+		      this.sheet = workbook.getSheetAt(0);
+		   }
+		} else {
+		   workbook = WorkbookFactory.create(new FileInputStream(file));
+		}
 
 		int rows = sheet.getLastRowNum();
 

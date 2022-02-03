@@ -44,7 +44,10 @@ public class ExcelWriter {
            
             
             
-            Cell cell = ((Row) row).createCell(2);
+            Cell cell = ((Row) row).createCell(0);
+            cell.setCellValue(patient.getPesel() + patient.getDonationDate());
+            
+            cell = row.createCell(2);
             cell.setCellValue(patient.getPesel());
             
             cell = row.createCell(6);
